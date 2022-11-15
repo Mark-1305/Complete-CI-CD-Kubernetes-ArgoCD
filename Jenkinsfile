@@ -52,5 +52,13 @@ pipeline {
                 }
                           
             }
-        }
+        stage('Kubernetes Deployment'){
+                steps{
+                withKubeConfig([credentialsId: 'kubeconfig']) {
+                sh "sed -i 's#replace#${DOCKERHUB_USERNAME}/${APP_NAME}':latest#g' deployment.yml"
+                sh "kubectl apply -f deployment.yml "
+                } 
+            }   
+        }    
     }
+}

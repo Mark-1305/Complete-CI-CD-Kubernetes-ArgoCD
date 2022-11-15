@@ -40,16 +40,16 @@ pipeline {
                 steps {
                     script{
                         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-                        sh    'sudo docker push "${IMAGE_NAME}": "$IMAGE_TAG"'
-                        sh    'sudo docker push "${IMAGE_NAME}":latest'                            
+                        sh    "sudo docker push '${DOCKERHUB_USERNAME}/${APP_NAME}': '$IMAGE_TAG'"
+                        sh    "sudo docker push '${DOCKERHUB_USERNAME}/${APP_NAME}' : latest"                            
                         }
                     }
                 }
             }
         stage('Delete Docker Images'){
                 steps {
-                    sh "sudo docker rmi ${IMAGE_NAME}:${IMAGE_TAG}"
-                    sh "sudo docker rmi ${IMAGE_NAME}:latest"
+                    sh "sudo docker rmi '${DOCKERHUB_USERNAME}/${APP_NAME}':'${IMAGE_TAG}'"
+                    sh "sudo docker rmi '${DOCKERHUB_USERNAME}/${APP_NAME}':latest"
                 }
                           
             }

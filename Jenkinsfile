@@ -39,8 +39,8 @@ pipeline {
                 steps {
                     script{
                         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-                        sh    "sudo docker push '${DOCKERHUB_USERNAME}/${APP_NAME}': '$IMAGE_TAG'"
-                        sh    "sudo docker push '${DOCKERHUB_USERNAME}/${APP_NAME}' : latest"                            
+                        sh    "sudo docker push '${DOCKERHUB_USERNAME}/${APP_NAME}':'${IMAGE_TAG}'"
+                        sh    "sudo docker push '${DOCKERHUB_USERNAME}/${APP_NAME}':latest"                            
                         }
                     }
                 }

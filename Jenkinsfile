@@ -5,7 +5,7 @@ pipeline {
         APP_NAME = "jenkins-kube-argocd"
         IMAGE_TAG = "${BUILD_NUMBER}"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
-        REGISTRY_CREDS = 'dockerhub'
+        REGISTRY_CREDS = 'docker-hub'
     }
     stages{
         stage('Clean Workspace'){
@@ -49,6 +49,7 @@ pipeline {
                 steps{
                     sh "docker rmi ${IMAGE_NAME}:${BUILD_NUMBER}"
                     sh "docker rmi ${IMAGE_NAME}:latest"
+                }
                           
             }
         }

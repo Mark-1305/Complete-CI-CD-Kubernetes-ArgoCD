@@ -47,7 +47,7 @@ pipeline {
             }
         stage('Delete Docker Images'){
                 steps {
-                    sh "sudo docker rmi '${DOCKERHUB_USERNAME}/${APP_NAME}':'${IMAGE_TAG}'"
+                    /*sh "sudo docker rmi '${DOCKERHUB_USERNAME}/${APP_NAME}':'${IMAGE_TAG}'"*/
                     sh "sudo docker rmi '${DOCKERHUB_USERNAME}/${APP_NAME}':latest"
                 }
                           

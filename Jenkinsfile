@@ -5,7 +5,7 @@ pipeline {
         APP_NAME = "jenkins-kube-argocd"
         IMAGE_TAG = "${BUILD_NUMBER}"
         IMAGE_NAME = "${DOCKERHUB_USERNAME}" + "/" + "${APP_NAME}"
-        REGISTRY_CREDS = 'docker-hub'
+        REGISTRY_CREDS = 'dockerhub'
     }
     stages{
         stage('Clean Workspace'){
@@ -27,7 +27,7 @@ pipeline {
                 }
             }
         stage('Build Docker Image'){
-                steps{
+                steps {
                     script{
                         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
                             sh 'printenv'
@@ -35,23 +35,23 @@ pipeline {
                     }
                 }
             }
-        stage('Build Push Image'){
-                steps{
+        }    
+        stage('Build Push Image') {
+                steps {
                     script{
                         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-                            sudo 'docker push "${IMAGE_NAME}":"${BUILD_NUMBER}"'
-                            sudo 'docker push "${IMAGE_NAME}":latest'                            
+                        sh    'sudo docker push "${IMAGE_NAME}":"${BUILD_NUMBER}"'
+                        sh    'sudo docker push "${IMAGE_NAME}":latest'                            
                         }
                     }
                 }
             }
         stage('Delete Docker Images'){
-                steps{
-                    sh "docker rmi ${IMAGE_NAME}:${BUILD_NUMBER}"
-                    sh "docker rmi ${IMAGE_NAME}:latest"
+                steps {
+                    sh "sudo docker rmi ${IMAGE_NAME}:${BUILD_NUMBER}"
+                    sh "sudo docker rmi ${IMAGE_NAME}:latest"
                 }
                           
             }
         }
     }
-}

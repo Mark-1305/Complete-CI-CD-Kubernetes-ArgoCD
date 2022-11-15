@@ -23,31 +23,31 @@ pipeline {
         stage(' Checkout SCM'){
                 steps {
                     git branch: 'main', 
-                    credentialsId: 'github', 
-                    url: 'https://github.com/ManoharShetty507/Sample-Flask-App-Jenkins-Kubernetes-Argo-CD.git'
+                    url: 'https://github.com/Mark-1305/Complete-CI-CD-Kubernetes-ArgoCD.git'
                 }
             }
         stage('Build Docker Image'){
                 steps{
                     script{
-                        docker.withRegistry('',)
-                        docker_image = docker.build "${IMAGE_NAME}"
+                        withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
+                            sh 'printenv'
+                            sh 'sudo docker build -t "${IMAGE_NAME}" .'
                     }
                 }
             }
         stage('Build Push Image'){
                 steps{
                     script{
-                        docker.withRegistry('', REGISTRY_CREDS){
-                            docker_image.push("${BUILD_NUMBER}")
-                            docker_image.push('latest')                            
+                        withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
+                            sudo 'docker push "${IMAGE_NAME}":"${BUILD_NUMBER}"'
+                            sudo 'docker push "${IMAGE_NAME}":latest'                            
                         }
                     }
                 }
             }
         stage('Delete Docker Images'){
                 steps{
-                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_NAME}"
+                    sh "docker rmi ${IMAGE_NAME}:${BUILD_NUMBER}"
                     sh "docker rmi ${IMAGE_NAME}:latest"
                           
             }

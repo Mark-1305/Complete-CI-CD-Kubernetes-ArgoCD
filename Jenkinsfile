@@ -30,8 +30,7 @@ pipeline {
                 steps {
                     script{
                         withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
-                            sh 'printenv'
-                            sh 'sudo docker build -t "${IMAGE_NAME}" .'
+                            sh 'sudo docker build -t "${DOCKERHUB_USERNAME}/${APP_NAME}" .'
                     }
                 }
             }
